@@ -15,9 +15,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -39,7 +39,7 @@ public class MultiblockPartMachine extends MetaMachine implements IMultiPart {
 
     public MultiblockPartMachine(IMachineBlockEntity holder) {
         super(holder);
-        this.controllerPositions = new HashSet<>();
+        this.controllerPositions = ConcurrentHashMap.newKeySet();
     }
 
     //////////////////////////////////////

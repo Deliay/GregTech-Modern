@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author KilaBash
@@ -132,7 +133,7 @@ public class MachineUIProject extends UIProject {
                 }
             }
             categories.forEach((groupName, definitions) -> menu.branch(groupName, m -> {
-                Set<EditableMachineUI> addedSet = new HashSet<>();
+                Set<EditableMachineUI> addedSet = ConcurrentHashMap.newKeySet();
                 for (var definition : definitions) {
                     var editableUI = definition.getEditableUI();
                     if (editableUI != null && addedSet.add(editableUI)) {

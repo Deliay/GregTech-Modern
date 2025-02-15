@@ -29,6 +29,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ItemNetHandler implements IItemHandlerModifiable {
 
@@ -38,7 +39,7 @@ public class ItemNetHandler implements IItemHandlerModifiable {
     private final Level world;
     @Getter
     private final Direction facing;
-    private final Map<FacingPos, Integer> simulatedTransfersGlobalRoundRobin = new HashMap<>();
+    private final Map<FacingPos, Integer> simulatedTransfersGlobalRoundRobin = new ConcurrentHashMap<>();
     private int simulatedTransfers = 0;
 
     private final ItemStackHandler testHandler = new ItemStackHandler(1);

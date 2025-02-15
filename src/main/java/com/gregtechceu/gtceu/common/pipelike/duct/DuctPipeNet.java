@@ -9,10 +9,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DuctPipeNet extends PipeNet<DuctPipeProperties> {
 
-    private final Map<BlockPos, List<DuctRoutePath>> NET_DATA = new HashMap<>();
+    private final Map<BlockPos, List<DuctRoutePath>> NET_DATA = new ConcurrentHashMap<>();
 
     public DuctPipeNet(LevelPipeNet<DuctPipeProperties, ? extends PipeNet<DuctPipeProperties>> world) {
         super(world);

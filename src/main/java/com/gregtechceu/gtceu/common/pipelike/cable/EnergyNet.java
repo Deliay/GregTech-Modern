@@ -10,10 +10,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EnergyNet extends PipeNet<WireProperties> {
 
-    private final Map<BlockPos, List<EnergyRoutePath>> NET_DATA = new HashMap<>();
+    private final Map<BlockPos, List<EnergyRoutePath>> NET_DATA = new ConcurrentHashMap<>();
 
     private long lastEnergyFluxPerSec;
     private long energyFluxPerSec;

@@ -27,6 +27,7 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author h3tR
@@ -68,7 +69,7 @@ public class HazardProperty implements IMaterialProperty {
         }
 
         public HazardTrigger(String name, ProtectionType protectionType, TagPrefix... tagPrefixes) {
-            this(name, protectionType, new HashSet<>());
+            this(name, protectionType, ConcurrentHashMap.newKeySet());
             affectedTagPrefixes.addAll(Arrays.asList(tagPrefixes));
         }
 

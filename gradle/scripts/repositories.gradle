@@ -43,9 +43,9 @@ repositories {
         }
     }
     // JourneyMap API releases are here
-    maven {
-        name = "JourneyMap (Public)"
-        url = "https://jm.gserv.me/repository/maven-public/"
+    exclusiveContent { // JourneyMap API
+        forRepository { maven { url = "https://jm.gserv.me/repository/maven-public/" } }
+        filter { includeGroup("info.journeymap") }
     }
     maven {
         name = "Kotlin for Forge"

@@ -76,6 +76,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -141,7 +142,7 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine
     private boolean needPatternSync;
 
     @Persisted
-    private HashSet<BlockPos> proxies = new HashSet<>();
+    private Set<BlockPos> proxies = ConcurrentHashMap.newKeySet();
 
     protected final MEPatternBufferRecipeHandler recipeHandler = new MEPatternBufferRecipeHandler(this);
 
@@ -228,7 +229,7 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine
     }
 
     public Set<MEPatternBufferProxyPartMachine> getProxies() {
-        Set<MEPatternBufferProxyPartMachine> proxies1 = new HashSet<>();
+        Set<MEPatternBufferProxyPartMachine> proxies1 = ConcurrentHashMap.newKeySet();
         for (var pos : proxies) {
             if (MetaMachine.getMachine(getLevel(), pos) instanceof MEPatternBufferProxyPartMachine p) {
                 proxies1.add(p);
@@ -437,8 +438,8 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine
         private final Set<FluidStack> fluidInventory;
 
         public InternalSlot() {
-            this.itemInventory = new HashSet<>();
-            this.fluidInventory = new HashSet<>();
+            this.itemInventory = ConcurrentHashMap.newKeySet();
+            this.fluidInventory = ConcurrentHashMap.newKeySet();
         }
 
         public boolean isItemEmpty() {

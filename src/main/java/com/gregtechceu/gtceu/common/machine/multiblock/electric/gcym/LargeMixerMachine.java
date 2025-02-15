@@ -15,8 +15,8 @@ import net.minecraft.core.Direction;
 
 import lombok.Getter;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -30,7 +30,7 @@ public class LargeMixerMachine extends WorkableElectricMultiblockMachine {
     @Getter
     @DescSynced
     @RequireRerender
-    private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
+    private final Set<BlockPos> fluidBlockOffsets = ConcurrentHashMap.newKeySet();
 
     public LargeMixerMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);

@@ -45,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -106,7 +107,7 @@ public class PatternPreviewWidget extends WidgetGroup {
                         .setDropShadow(true)));
 
         this.patterns = CACHE.computeIfAbsent(controllerDefinition, definition -> {
-            HashSet<ItemStackKey> drops = new HashSet<>();
+            Set<ItemStackKey> drops = ConcurrentHashMap.newKeySet();
             drops.add(new ItemStackKey(this.controllerDefinition.asStack()));
             return controllerDefinition.getMatchingShapes().stream()
                     .map(it -> initializePattern(it, drops))
@@ -270,7 +271,7 @@ public class PatternPreviewWidget extends WidgetGroup {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
     }
 
-    private MBPattern initializePattern(MultiblockShapeInfo shapeInfo, HashSet<ItemStackKey> blockDrops) {
+    private MBPattern initializePattern(MultiblockShapeInfo shapeInfo, Set<ItemStackKey> blockDrops) {
         Map<BlockPos, BlockInfo> blockMap = new HashMap<>();
         IMultiController controllerBase = null;
         BlockPos multiPos = locateNextRegion(500);
@@ -376,7 +377,7 @@ public class PatternPreviewWidget extends WidgetGroup {
 
         public List<ItemStack> getItemStack() {
             return Arrays.stream(itemStackKey.getItemStack())
-                    .map(itemStack -> {
+                    .<ItemStack>map(itemStack -> {
                         var item = itemStack.copy();
                         item.setCount(amount);
                         return item;
