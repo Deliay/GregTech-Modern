@@ -377,7 +377,7 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine
     public PatternContainerGroup getTerminalGroup() {
         List<IMultiController> controllers = getControllers();
         // has controller
-        if (!controllers.isEmpty()) {
+        if (isFormed()) {
             IMultiController controller = controllers.get(0);
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
             // has customName

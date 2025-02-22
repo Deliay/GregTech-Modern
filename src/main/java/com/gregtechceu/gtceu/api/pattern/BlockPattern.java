@@ -15,8 +15,10 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -40,13 +42,16 @@ import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+
 public class BlockPattern {
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     static Direction[] FACINGS = { Direction.SOUTH, Direction.NORTH, Direction.WEST, Direction.EAST, Direction.UP,
             Direction.DOWN };
@@ -131,6 +136,7 @@ public class BlockPattern {
                         TraceabilityPredicate predicate = this.blockMatches[c][b][a];
                         BlockPos pos = setActualRelativeOffset(x, y, z, frontFacing, upwardsFacing, isFlipped)
                                 .offset(centerPos.getX(), centerPos.getY(), centerPos.getZ());
+
                         if (!worldState.update(pos, predicate)) {
                             return false;
                         }
@@ -147,6 +153,7 @@ public class BlockPattern {
                                 if (part.isFormed() && !part.canShared() &&
                                         !part.hasController(worldState.controllerPos)) { // check part can be shared
                                     canPartShared = false;
+
                                     worldState.setError(new PatternStringError("multiblocked.pattern.error.share"));
                                 } else {
                                     matchContext.getOrCreate("parts", HashSet::new).add(part);
@@ -378,6 +385,13 @@ public class BlockPattern {
                 }
             }
         });
+
+        if (Objects.nonNull(player)) {
+            checkPatternAt(worldState, false);
+            if (worldState.hasError()) {
+                player.sendSystemMessage(worldState.error.getErrorInfo());
+            }
+        }
     }
 
     public BlockInfo[][][] getPreview(int[] repetition) {
